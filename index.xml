@@ -6,10 +6,23 @@
     <description>Recent content on Hogan Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 08 Feb 2020 08:16:54 +0700</lastBuildDate>
+    <lastBuildDate>Fri, 10 Apr 2020 14:25:42 +0700</lastBuildDate>
     
 	<atom:link href="https://xiaohao0576.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hr Salary Working Days</title>
+      <link>https://xiaohao0576.github.io/posts/hr-salary-working-days/</link>
+      <pubDate>Fri, 10 Apr 2020 14:25:42 +0700</pubDate>
+      
+      <guid>https://xiaohao0576.github.io/posts/hr-salary-working-days/</guid>
+      <description>Salary rule中计算员工每天的薪资 问题描述 公司计算员工无薪假应扣除的薪资时，需要先计算每天的薪资，大概有以下几种算法:
+ 员工的工资 / 当月天数 （按日历表上计算） 员工的工资 / 当月上班的天数 （去除周末，但包含公共节假日） 员工的工资 / 当月实际应该出勤的天数 （去除周末和节假日） 但无论哪种算法，在salary rule中的python code中都无法直接获取当月应该上班的天数或小时数。  解决思路  二次开发 快速粗暴的方法  先说二次开发的方法 salary rule中的python code部分，能够引用的对象是有限制的，这是因为代码是在Odoo的safe_eval方法中运行的，只看方法名就应该能想到会有很多限制。如果想深入了解代码运行原理，可以去查看hr.payslip的代码，里面有一个_get_payslip_lines()方法，方法中的localdict字典包含了在salary rule中可以引用的对象。
+由于本人刚接触Odoo不久，不知道如何二次开发，所以这个方法留以后研究。
+再说快速粗暴的方法 直接离线算出每月应该工作的天数和小时数，然后硬编码到salary rule中。此方法适用的条件如下：
+ 全公司只遵循一种上班时间制度，如果不同的员工有不同的上班时间安排，则不太适用此方法 公司不会频繁改变上班时间安排  上代码 from pytz import timezone from datetime import datetime def get_work_days_data(employee, years=(2020, 2021, 2022)): &amp;#34;&amp;#34;&amp;#34;获取指定员工的工作日期和时间,如果需要获取满勤的工作天数和时长Args:employee: hr.employee对象years:获取哪几年的工作天数,元组或列表&amp;#34;&amp;#34;&amp;#34; tz=timezone(employee.tz) working_days = {} for year in years: month_data = [] for month in range(1, 13): date_from = datetime(year, month, 1) if month &amp;lt; 12: date_to = datetime(year, month+1, 1) else: date_to = datetime(year+1, 1, 1) data = employee.</description>
+    </item>
     
     <item>
       <title>My First Post</title>
